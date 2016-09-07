@@ -107,5 +107,9 @@ case class SQLActionBuilder(queryParts: Seq[Any], unitPConv: SetParameter[Unit])
       protected[this] def createBuilder = Vector.newBuilder[R]
     }
   }
+
   def asUpdate = as[Int](GetResult.GetUpdateValue).head
+  def stripMargin(marginChar: Char): SQLActionBuilder =
+    copy(queryParts.map(_.asInstanceOf[String].stripMargin(marginChar)))
+  def stripMargin: SQLActionBuilder = copy(queryParts.map(_.asInstanceOf[String].stripMargin))
 }
